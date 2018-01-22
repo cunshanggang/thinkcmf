@@ -8,24 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: 老猫 <thinkcmf@126.com>
 // +----------------------------------------------------------------------
-namespace app\portal\controller;
-
-use cmf\controller\AdminBaseController;
-
-/**
- * Class AdminIndexController
- * @package app\portal\controller
- * @adminMenuRoot(
- *     'name'   =>'门户管理',
- *     'action' =>'default',
- *     'parent' =>'',
- *     'display'=> true,
- *     'order'  => 30,
- *     'icon'   =>'th',
- *     'remark' =>'门户管理'
- * )
- */
-class AdminIndexController extends AdminBaseController {
-
-
-}
+return [
+    ['name' => '订单列表', 'api' => "Category/nav"],
+    ['name' => '所有页面', 'api' => "Page/nav"]
+];
