@@ -73,14 +73,10 @@
                     <th width="50">{:lang('SORT')}</th>
                 </notempty>
                 <th width="50">ID</th>
-                <th>标题</th>
-                <th>分类</th>
-                <th width="50">作者</th>
-                <th width="65">点击量</th>
-                <th width="65">评论量</th>
-                <th width="160">关键字/来源<br>摘要/缩略图</th>
-                <th width="130">更新时间</th>
-                <th width="130">发布时间</th>
+                <th width="100">标题</th>
+                <th width="80">作者</th>
+                <th width="400">内容</th>
+                <th width="150">插入时间</th>
                 <th width="70">状态</th>
                 <th width="90">操作</th>
             </tr>
@@ -101,85 +97,19 @@
                     <td>
                         <notempty name="category">
                             <a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id'],'cid'=>$vo['category_id']))}"
-                               target="_blank">{$vo.post_title}</a>
+                               target="_blank">{$vo.title}</a>
                             <else/>
                             <a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id']))}"
-                               target="_blank">{$vo.post_title}</a>
+                               target="_blank">{$vo.title}</a>
                         </notempty>
                     </td>
+                    <td>{$vo.author}</td>
+                    <td>{$vo.content}</td>
                     <td>
-                        <foreach name="vo.categories" item="voo">
-                            <span class="label label-default">
-                                <a href="{:cmf_url('portal/List/index',array('id'=>$voo['id']))}"
-                                   style="color: #fff;"
-                                   target="_blank"
-                                >{$voo.name}</a>
-                            </span>&nbsp;
-                        </foreach>
-                    </td>
-                    <td>{$vo.user_nickname}</td>
-                    <td>{$vo.post_hits|default=0}</td>
-                    <td>
-                        <notempty name="vo.comment_count">
-                            {$vo.comment_count|default='0'}
-                            <!--<a href="javascript:parent.openIframeDialog('{:url('comment/commentadmin/index',array('post_id'=>$vo['id']))}','评论列表')">{$vo.comment_count}</a>-->
-                            <else/>
-                            {$vo.comment_count|default='0'}
-                        </notempty>
+                        {:date('Y-m-d H:i',$vo['time'])}
                     </td>
                     <td>
-                        <notempty name="vo.post_keywords">
-                            <i class="fa fa-check fa-fw"></i>
-                            <else/>
-                            <i class="fa fa-close fa-fw"></i>
-                        </notempty>
-                        <notempty name="vo.post_source">
-                            <i class="fa fa-check fa-fw"></i>
-                            <else/>
-                            <i class="fa fa-close fa-fw"></i>
-                        </notempty>
-                        <notempty name="vo.post_excerpt">
-                            <i class="fa fa-check fa-fw"></i>
-                            <else/>
-                            <i class="fa fa-close fa-fw"></i>
-                        </notempty>
-
-                        <notempty name="vo.more.thumbnail">
-                            <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo.more.thumbnail)}');">
-                                <i class="fa fa-photo fa-fw"></i>
-                            </a>
-                        </notempty>
-                    </td>
-                    <td>
-                        <notempty name="vo.update_time">
-                            {:date('Y-m-d H:i',$vo['update_time'])}
-                        </notempty>
-
-                    </td>
-                    <td>
-                        <empty name="vo.published_time">
-                            未发布
-                            <else/>
-                            {:date('Y-m-d H:i',$vo['published_time'])}
-                        </empty>
-
-                    </td>
-                    <td>
-                        <notempty name="vo.post_status">
-                            <a data-toggle="tooltip" title="已发布"><i class="fa fa-check"></i></a>
-                            <else/>
-                            <a data-toggle="tooltip" title="未发布"><i class="fa fa-close"></i></a>
-                        </notempty>
-                        <notempty name="vo.is_top">
-                            <a data-toggle="tooltip" title="已置顶"><i class="fa fa-arrow-up"></i></a>
-                            <else/>
-                            <a data-toggle="tooltip" title="未置顶"><i class="fa fa-arrow-down"></i></a>
-                        </notempty>
-                        <notempty name="vo.recommended">
-                            <a data-toggle="tooltip" title="已推荐"><i class="fa fa-thumbs-up"></i></a>
-                            <else/>
-                            <a data-toggle="tooltip" title="未推荐"><i class="fa fa-thumbs-down"></i></a>
-                        </notempty>
+                        {$vo.status}
                     </td>
                     <td>
                         <a href="{:url('AdminArticle/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>

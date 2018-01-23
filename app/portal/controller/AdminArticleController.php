@@ -119,7 +119,7 @@ class AdminArticleController extends AdminBaseController
                 }
             }
 
-            $portalPostModel->adminAddArticle($data['post'], $data['post']['categories']);
+            $portalPostModel->adminAddArtiicle($data['post'], $data['post']['categories']);
 
             $data['post']['id'] = $portalPostModel->id;
             $hookParam          = [
