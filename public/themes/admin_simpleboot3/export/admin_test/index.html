@@ -4,7 +4,7 @@
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
         <li class="active"><a href="javascript:;">所有文章</a></li>
-        <li><a href="{:url('AdminArticle/add')}">添加文章</a></li>
+        <li><a href="{:url('AdminTest/add')}">添加文章</a></li>
     </ul>
     <form class="well form-inline margin-top-20" method="post" action="{:url('AdminArticle/index')}">
         分类:
@@ -112,7 +112,7 @@
                         {$vo.status}
                     </td>
                     <td>
-                        <a href="{:url('AdminArticle/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+                        <a href="{:url('AdminTest/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
                         <a href="{:url('AdminArticle/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
                     </td>
                 </tr>

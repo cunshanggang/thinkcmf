@@ -22,4 +22,5 @@ class AdminNewsController extends AdminBaseController
         echo "</pre>";
         return $this->fetch();
     }
+
 }
