@@ -17,14 +17,9 @@ class AdminTestController extends AdminBaseController
     public function index() {
         $param = $this->request->param();
         $postService = new PostService();
-        $data       = $postService->adminNewsList($param);
-//        echo "<pre>";
-//        print_r($data);
-//        echo "</pre>";
-//        $articles = "";
+        $data = $postService->adminNewsList($param);
+        //分页
         $this->assign('articles', $data->items());
-//        $this->assign('category_tree', $categoryTree);
-//        $this->assign('category', $categoryId);
         $this->assign('page', $data->render());
         return $this->fetch();
     }
@@ -40,9 +35,6 @@ class AdminTestController extends AdminBaseController
     //添加文章数据处理
     public function addPost()
     {
-//        echo "<pre>";
-//        print_r($this->request->isPost());
-//        echo "</pre>";exit;
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
@@ -51,35 +43,9 @@ class AdminTestController extends AdminBaseController
                 $this->error($result);
             }
 
-            $portalPostModel = new NewsPostModel();
-
-            if (!empty($data['photo_names']) && !empty($data['photo_urls'])) {
-                $data['post']['more']['photos'] = [];
-                foreach ($data['photo_urls'] as $key => $url) {
-                    $photoUrl = cmf_asset_relative_url($url);
-                    array_push($data['post']['more']['photos'], ["url" => $photoUrl, "name" => $data['photo_names'][$key]]);
-                }
-            }
-
-            if (!empty($data['file_names']) && !empty($data['file_urls'])) {
-                $data['post']['more']['files'] = [];
-                foreach ($data['file_urls'] as $key => $url) {
-                    $fileUrl = cmf_asset_relative_url($url);
-                    array_push($data['post']['more']['files'], ["url" => $fileUrl, "name" => $data['file_names'][$key]]);
-                }
-            }
-
-            $portalPostModel->adminAddArticle($data['post'], $data['post']['categories']);
-
-            $data['post']['id'] = $portalPostModel->id;
-            $hookParam          = [
-                'is_add'  => true,
-                'article' => $data['post']
-            ];
-            hook('portal_admin_after_save_article', $hookParam);
-
-
-            $this->success('添加成功!', url('AdminTest/edit', ['id' => $portalPostModel->id]));
+            $NewsPostModel = new NewsPostModel();
+            $NewsPostModel->adminAddNews($post);
+            $this->success('添加成功!', url('AdminTest/index'));
         }
 
     }

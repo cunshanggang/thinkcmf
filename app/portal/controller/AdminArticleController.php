@@ -96,10 +96,19 @@ class AdminArticleController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
+//            echo "<pre>";
+//            print_r($post);
+//            echo "</pre>";
             $result = $this->validate($post, 'AdminArticle');
+//            echo "<pre>";
+//            print_r($result);
+//            echo "</pre>";
             if ($result !== true) {
                 $this->error($result);
             }
+//            echo "<pre>";
+//            print_r($post);
+//            echo "</pre>";
 
             $portalPostModel = new PortalPostModel();
 
@@ -119,7 +128,7 @@ class AdminArticleController extends AdminBaseController
                 }
             }
 
-            $portalPostModel->adminAddArtiicle($data['post'], $data['post']['categories']);
+            $portalPostModel->adminAddArticle($data['post'], $data['post']['categories']);
 
             $data['post']['id'] = $portalPostModel->id;
             $hookParam          = [

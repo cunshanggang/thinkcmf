@@ -12,12 +12,14 @@ use think\Validate;
 class AdminNewsValidate extends Validate
 {
     protected $rule = [
+//        'title' => 'require|max:3',
         'title' => 'require',
         'author' => 'require',
         'content' => 'require',
     ];
     protected $message = [
         'title.require' => '新闻标题不能为空！',
+//        'title.max' => '字符不能超过3个!',
         'author.require' => '发布者不能为空！',
         'content.require' => '内容不能为空！',
     ];
