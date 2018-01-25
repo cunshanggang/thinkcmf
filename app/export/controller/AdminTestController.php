@@ -27,7 +27,7 @@ class AdminTestController extends AdminBaseController
     //添加文章
     public function add() {
         $themeModel        = new ThemeModel();
-        $articleThemeFiles = $themeModel->getActionThemeFiles('export/test/index');
+        $articleThemeFiles = $themeModel->getActionThemeFiles('export/Test/index');
         $this->assign('article_theme_files', $articleThemeFiles);
         return $this->fetch();
     }
@@ -53,6 +53,51 @@ class AdminTestController extends AdminBaseController
     //编辑文章
     public function edit() {
 
+        $id = $this->request->param('id', 0, 'intval');
+
+        $NewsPostModel = new NewsPostModel();
+        $post = $NewsPostModel->where('id', $id)->find();
+//        echo "<pre>";
+//        print_r($post);
+//        echo "</pre>";
+
+        $themeModel   = new ThemeModel();
+        $articleThemeFiles = $themeModel->getActionThemeFiles('export/Test/index');
+        $this->assign('article_theme_files', $articleThemeFiles);
+        $this->assign('post', $post);
+
         return $this->fetch();
+    }
+
+    //编辑更新数据
+    public function editPost() {
+        if ($this->request->isPost()) {
+            $data   = $this->request->param();
+            $post   = $data['post'];
+            $result = $this->validate($post, 'AdminNews');
+            if ($result !== true) {
+                $this->error($result);
+            }
+
+            $NewsPostModel = new NewsPostModel();
+            $result = $NewsPostModel->adminEditNews($post);
+            if($result) {
+                $this->success('更新成功!', url('AdminTest/index'));
+            }
+
+        }
+    }
+
+    //测试
+    public function test() {
+        //更新update和插入insert
+        $r = Db::execute("UPDATE cmf_news SET content='内容2' WHERE id=2");
+        //如果更新返回结果为：1
+        //如果没有更新返回结果为：0
+        //查询select
+//        $r = Db::query("select * from cmf_news where id=1");
+        echo "<pre>";
+        print_r($r);
+        echo "</pre>";
     }
 }
