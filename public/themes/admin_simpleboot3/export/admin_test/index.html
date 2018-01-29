@@ -113,7 +113,7 @@
                     </td>
                     <td>
                         <a href="{:url('AdminTest/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
-                        <a href="{:url('AdminArticle/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
+                        <a href="{:url('AdminTest/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
                     </td>
                 </tr>
             </foreach>
@@ -169,7 +169,7 @@
             <button class="btn btn-primary btn-sm js-articles-copy" type="button">批量复制</button>
             -->
             <button class="btn btn-danger btn-sm js-ajax-submit" type="submit"
-                    data-action="{:url('AdminArticle/delete')}" data-subcheck="true" data-msg="您确定删除吗？">
+                    data-action="{:url('AdminTest/delete')}" data-subcheck="true" data-msg="您确定删除吗？">
                 {:lang('DELETE')}
             </button>
         </div>

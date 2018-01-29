@@ -78,7 +78,7 @@ class PostService
 //            ->join($join)
 //            ->where($where)
             ->order('time', 'DESC')
-            ->paginate(1);
+            ->paginate(2);
 
         return $articles;
 

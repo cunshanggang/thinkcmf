@@ -24,6 +24,34 @@ class AdminTestController extends AdminBaseController
         return $this->fetch();
     }
 
+    public function delete() {
+        $param           = $this->request->param();
+        $newsPostModel = new NewsPostModel();
+        //单条删除
+//        echo "<pre>";
+//        print_r($param);
+//        echo "</pre>";exit;
+        if(isset($param['id'])) {
+            $id = $this->request->param('id',0,'intval');
+            $result = $newsPostModel->where(['id'=>$id])->delete();
+            if($result) {
+                $this->success("删除成功！", '');
+            }
+        }
+        //多条删除
+        if(isset($param['ids'])) {
+            $ids = $this->request->param("ids/a");
+            $recycle = $newsPostModel->where(['id' => ['in', $ids]])->delete();;
+//            echo "<pre>";
+//            print_r($ids);
+//            echo "</pre>";
+            if($recycle) {
+                $this->success("删除成功！", '');
+            }
+        }
+
+    }
+
     //添加文章
     public function add() {
         $themeModel        = new ThemeModel();
