@@ -28,10 +28,11 @@ class PostService
     public function adminPostList($filter, $isPage = false)
     {
 
-        $where = [
-            'a.create_time' => ['>=', 0],
-            'a.delete_time' => 0
-        ];
+//        $where = [
+//            'a.create_time' => ['>=', 0],
+//            'a.delete_time' => 0
+//        ];
+        $where = [];
 
         $join = [
             ['__USER__ u', 'a.user_id = u.id']
@@ -52,31 +53,31 @@ class PostService
         $startTime = empty($filter['start_time']) ? 0 : strtotime($filter['start_time']);
         $endTime   = empty($filter['end_time']) ? 0 : strtotime($filter['end_time']);
         if (!empty($startTime) && !empty($endTime)) {
-            $where['a.published_time'] = [['>= time', $startTime], ['<= time', $endTime]];
+            $where['a.time'] = [['>= time', $startTime], ['<= time', $endTime]];
         } else {
             if (!empty($startTime)) {
-                $where['a.published_time'] = ['>= time', $startTime];
+                $where['a.time'] = ['>= time', $startTime];
             }
             if (!empty($endTime)) {
-                $where['a.published_time'] = ['<= time', $endTime];
+                $where['a.time'] = ['<= time', $endTime];
             }
         }
 
         $keyword = empty($filter['keyword']) ? '' : $filter['keyword'];
         if (!empty($keyword)) {
-            $where['a.post_title'] = ['like', "%$keyword%"];
+            $where['a.title'] = ['like', "%$keyword%"];
         }
 
-        if ($isPage) {
-            $where['a.post_type'] = 2;
-        } else {
-            $where['a.post_type'] = 1;
-        }
+//        if ($isPage) {
+//            $where['a.post_type'] = 2;
+//        } else {
+//            $where['a.post_type'] = 1;
+//        }
 
         $portalPostModel = new NewsPostModel();
         $articles        = $portalPostModel->alias('a')->field($field)
 //            ->join($join)
-//            ->where($where)
+            ->where($where)
             ->order('time', 'DESC')
             ->paginate(2);
 
