@@ -116,6 +116,16 @@ class AdminTestController extends AdminBaseController
         }
     }
 
+    //弹窗框
+    public function box() {
+
+        return $this->fetch();
+    }
+
+    //插件
+    public function myfrm() {
+        return $this->fetch();
+    }
     //测试
     public function test() {
         //更新update和插入insert
