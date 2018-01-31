@@ -12,6 +12,7 @@ use app\export\model\NewsPostModel;
 use app\export\service\PostService;
 use think\Db;
 use app\admin\model\ThemeModel;
+use think\Loader;
 class AdminTestController extends AdminBaseController
 {
     public function index() {
@@ -116,6 +117,39 @@ class AdminTestController extends AdminBaseController
         }
     }
 
+    //导入
+    public function import() {
+//        echo "<pre>";
+//        print_r($_FILES);
+//        echo "</pre>";
+//        Loader::import('');
+//        vendor("phpoffice.phpexcel.Classes.PHPExcel.PHPExcel",".php");
+//        $excelObj = new \PHPExcel();
+
+        if ($this->request->isPost()) {
+            $data   = $this->request->param();
+//            echo "<pre>";
+//            print_r($data);
+//            echo "</pre>";
+        }
+
+        if (!empty($data['file_names']) && !empty($data['file_urls'])) {
+            $data['post']['more']['files'] = [];
+            foreach ($data['file_urls'] as $key => $url) {
+                $fileUrl = cmf_asset_relative_url($url);
+                array_push($data['post']['more']['files'], ["url" => $fileUrl, "name" => $data['file_names'][$key]]);
+            }
+            $objPHPExcel = \PHPExcel_IOFactory::load($data['file_urls'][0]);//读取上传的文件
+            $arrExcel = $objPHPExcel->getSheet(0)->toArray();//获取其中的数据
+            echo "<pre>";
+            print_r($arrExcel);//die;
+            echo "</pre>";exit;
+//            print_r($data);
+
+        }
+
+        return $this->fetch();
+    }
     //弹窗框
     public function box() {
 
