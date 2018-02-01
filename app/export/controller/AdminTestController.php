@@ -125,6 +125,13 @@ class AdminTestController extends AdminBaseController
 //        Loader::import('');
 //        vendor("phpoffice.phpexcel.Classes.PHPExcel.PHPExcel",".php");
 //        $excelObj = new \PHPExcel();
+        //集体引入类库
+//        vendor("phpexcel.Classes.PHPExcel.PHPExcel");
+//        //5后面如果没有.的话也会报错
+//        vendor("phpexcel.Classes.PHPExcel.Writer.Excel5.");
+//        //7后面如果没有.的话也会报错
+//        vendor("phpexcel.Classes.PHPExcel.Writer.Excel2007.");
+//        vendor("phpexcel.Classes.PHPExcel.IOFactory");
 
         if ($this->request->isPost()) {
             $data   = $this->request->param();
@@ -133,21 +140,38 @@ class AdminTestController extends AdminBaseController
 //            echo "</pre>";
         }
 
+        $arrExcel = "";
         if (!empty($data['file_names']) && !empty($data['file_urls'])) {
             $data['post']['more']['files'] = [];
             foreach ($data['file_urls'] as $key => $url) {
                 $fileUrl = cmf_asset_relative_url($url);
                 array_push($data['post']['more']['files'], ["url" => $fileUrl, "name" => $data['file_names'][$key]]);
             }
-            $objPHPExcel = \PHPExcel_IOFactory::load($data['file_urls'][0]);//读取上传的文件
+//            echo "<pre>";
+//            print_r($fileUrl);
+//            echo "</pre>";
+            $url = UPLOAD."/{$data['file_urls'][0]}";
+            $objPHPExcel = \PHPExcel_IOFactory::load($url);//读取上传的文件
             $arrExcel = $objPHPExcel->getSheet(0)->toArray();//获取其中的数据
             echo "<pre>";
-            print_r($arrExcel);//die;
-            echo "</pre>";exit;
-//            print_r($data);
-
+            print_r($arrExcel);
+            echo "</pre>";
+            exit;
+            foreach ($arrExcel as $k=>$v) {
+                $data1['id'] = $v[0];
+                $data1['title'] = $v[1];
+                $data1['author'] = $v[2];
+                $data1['content'] = $v[3];
+                $data1['time'] = $v[4];
+                $data1['status'] = $v[5];
+                db("news")->insert($data1);
+            }
+            $this->success("插入成功!",url("AdminTest/index"));
         }
-
+//        echo "<pre>";
+//        print_r($arrExcel);//die;
+//        echo "</pre>";exit;
+//        return $arrExcel;
         return $this->fetch();
     }
     //弹窗框
