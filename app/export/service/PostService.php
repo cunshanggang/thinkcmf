@@ -78,8 +78,8 @@ class PostService
         $articles        = $portalPostModel->alias('a')->field($field)
 //            ->join($join)
             ->where($where)
-            ->order('time', 'DESC')
-            ->paginate(2);
+            ->order('id', 'DESC')
+            ->paginate(10);
 
         return $articles;
 
