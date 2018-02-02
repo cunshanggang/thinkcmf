@@ -116,7 +116,96 @@ class AdminTestController extends AdminBaseController
 
         }
     }
+    //导出
+    public function export() {
 
+        return $this->fetch();
+    }
+
+    public function exportExcel() {
+//        $fileName = "news";
+//        $headArr = array("序号","标题","发布者","内容","时间","状态");
+//        $data = db("news")->select();
+        $fileName = "hs_code";
+        $headArr = array("序号","商品编码","附件编码","商品附件码","名称","属性","单位一","单位二","进口税率(优惠)","进口税率(普通)","增值税","消费税","监控条件");
+        $data = db("hs_code")->select();
+
+//        echo "<pre>";
+//        print_r($data);
+//        echo "</pre>";
+        $data1 = array();
+//        foreach($data as $k=>$v) {
+//            echo "<pre>";
+//            print_r($v);
+//            echo "</pre>";
+            //新闻表
+//            $data1[$k]['id'] = $v['id'];
+//            $data1[$k]['title'] = $v['title'];
+//            $data1[$k]['author'] = $v['author'];
+//            $data1[$k]['content'] = $v['content'];
+//            $data1[$k]['time'] = date("Y-m-d H:i:s",$v['time']);
+//            $data1[$k]['status'] = ($v['status'] == 1) ? '开启':'锁定';
+//            echo "<hr>";
+//        }
+//        exit;
+        $this->getExcel($fileName,$headArr,$data);
+    }
+
+    //导出引用方法
+    public  function getExcel($fileName,$headArr,$data)
+    {
+        //导入PHPExcel类库，因为PHPExcel没有用命名空间，只能inport导入
+//        import("Org.Util.PHPExcel");
+//        import("Org.Util.PHPExcel.Writer.Excel5");
+//        import("Org.Util.PHPExcel.IOFactory.php");
+
+        $date = date("Y_m_d",time());
+        $fileName .= "_{$date}.xls";
+
+        //创建PHPExcel对象，注意，不能少了\
+        $objPHPExcel = new \PHPExcel();
+        $objProps = $objPHPExcel->getProperties();
+
+        //设置表头
+        $key = ord("A");
+        //print_r($headArr);exit;
+        foreach($headArr as $v){
+            $colum = chr($key);
+            $objPHPExcel->setActiveSheetIndex(0) ->setCellValue($colum.'1', $v);
+            $objPHPExcel->setActiveSheetIndex(0) ->setCellValue($colum.'1', $v);
+            $key += 1;
+        }
+
+        $column = 2;
+        $objActSheet = $objPHPExcel->getActiveSheet();
+
+        //print_r($data);exit;
+        foreach($data as $key => $rows){ //行写入
+            $span = ord("A");
+            foreach($rows as $keyName=>$value){// 列写入
+                $j = chr($span);
+                $objActSheet->setCellValue($j.$column, $value);
+                $span++;
+            }
+            $column++;
+        }
+
+        $fileName = iconv("utf-8", "gb2312", $fileName);
+
+        //重命名表
+        //$objPHPExcel->getActiveSheet()->setTitle('test');
+        //设置活动单指数到第一个表,所以Excel打开这是第一个表
+        $objPHPExcel->setActiveSheetIndex(0);
+        ob_end_clean();//清除缓冲区,避免乱码
+        header('Content-Type: application/vnd.ms-excel');
+        header("Content-Disposition: attachment;filename=\"$fileName\"");
+        header('Cache-Control: max-age=0');
+
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        $objWriter->save('php://output'); //文件通过浏览器下载
+        exit;
+
+    }
     //导入
     public function import() {
 //        echo "<pre>";
@@ -153,12 +242,12 @@ class AdminTestController extends AdminBaseController
             $url = UPLOAD."/{$data['file_urls'][0]}";
             $objPHPExcel = \PHPExcel_IOFactory::load($url);//读取上传的文件
             $arrExcel = $objPHPExcel->getSheet(0)->toArray();//获取其中的数据
-            echo "<pre>";
-            print_r($arrExcel);
-            echo "</pre>";
-            exit;
+//            echo "<pre>";
+//            print_r($arrExcel);
+//            echo "</pre>";
+//            exit;
             foreach ($arrExcel as $k=>$v) {
-                $data1['id'] = $v[0];
+//                $data1['id'] = $v[0];
                 $data1['title'] = $v[1];
                 $data1['author'] = $v[2];
                 $data1['content'] = $v[3];
