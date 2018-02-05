@@ -103,6 +103,9 @@ class AdminTestController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
+            echo "<pre>";
+            print_r($post);
+            echo "</pre>";
             $result = $this->validate($post, 'AdminNews');
             if ($result !== true) {
                 $this->error($result);
