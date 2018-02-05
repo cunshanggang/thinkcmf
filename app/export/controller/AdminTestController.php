@@ -311,4 +311,17 @@ class AdminTestController extends AdminBaseController
         print_r($r);
         echo "</pre>";
     }
+
+    //订单信息，商品信息，订单状态三表查询
+    public function orders() {
+        $m = model("News");
+        $r = $m->orderList();
+        echo "<pre>";
+        print_r($r);
+        echo "</pre>";
+        echo "<hr>";
+        echo "<pre>";
+        print_r(Db::getLastSql());//打印最近执行的sql语句
+        echo "</pre>";
+    }
 }
