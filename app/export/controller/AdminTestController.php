@@ -116,6 +116,32 @@ class AdminTestController extends AdminBaseController
 
         }
     }
+    //上传图片
+    public function uploadPic() {
+
+        return $this->fetch('pic');//不用带后缀名.html
+    }
+
+    //处理上传文件
+    public function upload() {
+        if ($this->request->isPost()) {
+            $data   = $this->request->param();
+            if (!empty($data['photo_names']) && !empty($data['photo_urls'])) {
+                $data['post']['more']['photos'] = [];
+                foreach ($data['photo_urls'] as $key => $url) {
+                    $photoUrl = cmf_asset_relative_url($url);
+                    array_push($data['post']['more']['photos'], ["url" => $photoUrl, "name" => $data['photo_names'][$key]]);
+                }
+            }
+//            echo "4654646";
+//            echo "<pre>";
+//            print_r($data);
+//            echo "</pre>";
+            $this->success("上传成功",url("adminTest/uploadPic"));
+        }
+    }
+
+
     //导出
     public function export() {
 
