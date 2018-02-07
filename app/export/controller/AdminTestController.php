@@ -119,7 +119,7 @@ class AdminTestController extends AdminBaseController
 
         }
     }
-    //改变状态
+    //改变状态 
     public function check() {
         $param = $this->request->param();
 //        echo "<pre>";
