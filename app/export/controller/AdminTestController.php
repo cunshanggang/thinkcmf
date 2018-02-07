@@ -119,6 +119,19 @@ class AdminTestController extends AdminBaseController
 
         }
     }
+    //改变状态
+    public function check() {
+        $param = $this->request->param();
+//        echo "<pre>";
+//        print_r($param);
+//        echo "</pre>";
+        $id['id'] = $param['id'];
+        $status['status'] = $param['status'];
+        $r = Db::table("cmf_news")->where($id)->update($status);
+        if($r) {
+           $this->success("操作成功!");
+        }
+    }
     //上传图片
     public function uploadPic() {
 

@@ -1,4 +1,8 @@
 <include file="public@header"/>
+<style type="text/css">
+    table{table-layout: fixed;}
+    table tr td{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+</style>
 </head>
 <body>
 <div class="wrap js-check-wrap">
@@ -73,10 +77,10 @@
                     <th width="50">{:lang('SORT')}</th>
                 </notempty>
                 <th width="50">ID</th>
-                <th width="100">标题</th>
-                <th width="80">作者</th>
-                <th width="400">内容</th>
-                <th width="150">插入时间</th>
+                <th id="title" width="100">标题</th>
+                <th width="50">作者</th>
+                <th width="200">内容</th>
+                <th width="80">插入时间</th>
                 <th width="70">状态</th>
                 <th width="90">操作</th>
             </tr>
@@ -109,7 +113,15 @@
                         {:date('Y-m-d H:i',$vo['time'])}
                     </td>
                     <td>
-                        {$vo.status}
+                        <if condition="$vo.status eq 1">
+                            <button class="btn btn-success btn-sm js-ajax-submit" type="submit"
+                                    data-action="{:url('AdminTest/check',array('status'=>0,'id'=>$vo['id']))}">启用
+                            </button>
+                        <else />
+                            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                                    data-action="{:url('AdminTest/check',array('status'=>1,'id'=>$vo['id']))}">锁定
+                            </button>
+                        </if>
                     </td>
                     <td>
                         <a href="{:url('AdminTest/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
@@ -117,26 +129,26 @@
                     </td>
                 </tr>
             </foreach>
-            <tfoot>
-            <tr>
-                <th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x"
-                                             data-checklist="js-check-x"></label></th>
-                <notempty name="category">
-                    <th width="50">{:lang('SORT')}</th>
-                </notempty>
-                <th width="50">ID</th>
-                <th>标题</th>
-                <th>分类</th>
-                <th width="50">作者</th>
-                <th width="65">点击量</th>
-                <th width="65">评论量</th>
-                <th width="160">关键字/来源<br>摘要/缩略图</th>
-                <th width="130">更新时间</th>
-                <th width="130">发布时间</th>
-                <th width="70">状态</th>
-                <th width="90">操作</th>
-            </tr>
-            </tfoot>
+            <!--<tfoot>-->
+            <!--<tr>-->
+                <!--<th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x"-->
+                                             <!--data-checklist="js-check-x"></label></th>-->
+                <!--<notempty name="category">-->
+                    <!--<th width="50">{:lang('SORT')}</th>-->
+                <!--</notempty>-->
+                <!--<th width="50">ID</th>-->
+                <!--<th>标题</th>-->
+                <!--<th>分类</th>-->
+                <!--<th width="50">作者</th>-->
+                <!--<th width="65">点击量</th>-->
+                <!--<th width="65">评论量</th>-->
+                <!--<th width="160">关键字/来源<br>摘要/缩略图</th>-->
+                <!--<th width="130">更新时间</th>-->
+                <!--<th width="130">发布时间</th>-->
+                <!--<th width="70">状态</th>-->
+                <!--<th width="90">操作</th>-->
+            <!--</tr>-->
+            <!--</tfoot>-->
         </table>
         <div class="table-actions">
             <notempty name="category">
