@@ -100,10 +100,10 @@
                     <td><b>{$vo.id}</b></td>
                     <td>
                         <notempty name="category">
-                            <a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id'],'cid'=>$vo['category_id']))}"
+                            <a href="{:cmf_url('export/News/index',array('id'=>$vo['id']))}"
                                target="_blank">{$vo.title}</a>
                             <else/>
-                            <a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id']))}"
+                            <a href="{:cmf_url('export/News/index',array('id'=>$vo['id']))}"
                                target="_blank">{$vo.title}</a>
                         </notempty>
                     </td>

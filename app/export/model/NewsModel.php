@@ -19,4 +19,9 @@ class NewsModel extends Model {
             ->select();
         return $list;
     }
+
+    public function oneNews($newsId) {
+        $one_news = Db::table("cmf_news")->where($newsId)->find();
+        return $one_news;
+    }
 }

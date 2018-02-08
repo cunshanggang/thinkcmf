@@ -64,11 +64,17 @@ class ArticleController extends HomeBaseController
 
         hook('portal_before_assign_article', $article);
 
+//        echo "<pre>";
+//        print_r($article);
+//        echo "</pre>";
         $this->assign('article', $article);
         $this->assign('prev_article', $prevArticle);
         $this->assign('next_article', $nextArticle);
 
         $tplName = empty($article['more']['template']) ? $tplName : $article['more']['template'];
+//        echo "<pre>";
+//        print_r($tplName);
+//        echo "</pre>";
 
         return $this->fetch("/$tplName");
     }
